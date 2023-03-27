@@ -1,0 +1,60 @@
+{
+  "usesTypeScript": true,
+  "testLibrary": "Testing Library",
+  "component": {
+    "default": {
+      "path": "src/components",
+      "withStyle": false,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "atom": {
+      "customTemplates": {
+        "component": "templates/component/TemplateName.tsx",
+        "test": "templates/component/TemplateName.spec.tsx"
+      },
+      "path": "src/components/atoms",
+      "withStyle": false,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "molecule": {
+      "customTemplates": {
+        "component": "templates/component/TemplateName.tsx",
+        "test": "templates/component/TemplateName.spec.tsx"
+      },
+      "path": "src/components/molecules",
+      "withStyle": false,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "organism": {
+      "customTemplates": {
+        "component": "templates/component/TemplateName.tsx",
+        "test": "templates/component/TemplateName.spec.tsx"
+      },
+      "path": "src/components/organisms",
+      "withStyle": false,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "page": {
+      "customTemplates": {
+        "component": "templates/component/TemplateName.tsx",
+        "test": "templates/component/TemplateName.spec.tsx"
+      },
+      "path": "src/components/pages",
+      "withStyle": false,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    }
+  },
+  "usesStyledComponents": false,
+  "usesCssModule": false,
+  "cssPreprocessor": "scss"
+}
