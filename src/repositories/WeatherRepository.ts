@@ -1,8 +1,10 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { format } from 'date-fns';
 import { Weather } from '@resources/Weather';
 import { plainToInstance } from 'class-transformer';
 import { GeographicCoordinate } from '@resources/GeographicCoordinate';
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { map, Observable } from 'rxjs';
 
 interface DailyResults {
   daily: {
@@ -14,20 +16,16 @@ interface DailyResults {
 }
 
 export class WeatherRepository {
-  private readonly repository: AxiosInstance;
+  private static readonly repository = axios.create({
+    baseURL: 'https://archive-api.open-meteo.com/v1',
+  });
 
-  constructor() {
-    this.repository = axios.create({
-      baseURL: 'https://archive-api.open-meteo.com/v1',
-    });
-  }
-
-  async getWeathers(
+  static getWeathers(
     startDate: Date,
     endDate: Date,
     geo: GeographicCoordinate
-  ): Promise<Weather[]> {
-    const response = await this.repository.get<DailyResults>('/archive', {
+  ): Observable<Weather[]> {
+    const request = this.repository.get<DailyResults>('/archive', {
       params: {
         latitude: geo.latitude,
         longitude: geo.longitude,
@@ -42,16 +40,20 @@ export class WeatherRepository {
       },
     });
 
-    const daily = response.data.daily;
-    return daily.time.reduce((tmp, _, idx) => {
-      const data = {
-        temperature_2m_min: daily.temperature_2m_min[idx],
-        temperature_2m_max: daily.temperature_2m_max[idx],
-        time: daily.time[idx],
-        rain_sum: daily.rain_sum[idx],
-      };
-      tmp.push(plainToInstance(Weather, data));
-      return tmp;
-    }, [] as Weather[]);
+    return fromPromise(request).pipe(
+      map((response) => response.data.daily),
+      map((daily) => {
+        return daily.time.reduce((tmp, _, idx) => {
+          const data = {
+            temperature_2m_min: daily.temperature_2m_min[idx],
+            temperature_2m_max: daily.temperature_2m_max[idx],
+            time: daily.time[idx],
+            rain_sum: daily.rain_sum[idx],
+          };
+          tmp.push(plainToInstance(Weather, data));
+          return tmp;
+        }, [] as Weather[]);
+      })
+    );
   }
 }

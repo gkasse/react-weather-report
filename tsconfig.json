@@ -17,18 +17,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "types": [
-      "../node_modules/@types",
-      "vitest/globals",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "baseUrl": "./src",
     "paths": {
       "@resources/*": ["resources/*"],
       "@atoms/*": ["components/atoms/*"],
       "@molecules/*": ["components/molecules/*"],
       "@organisms/*": ["components/organisms/*"],
-      "@forms/*": ["forms/*"]
+      "@forms/*": ["forms/*"],
+      "@repositories/*": ["repositories/*"]
     }
   },
   "include": ["src"],

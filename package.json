@@ -24,8 +24,8 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
-    "sass": "^1.59.3",
-    "tw-elements": "^1.0.0-beta1"
+    "rxjs": "^7.8.0",
+    "sass": "^1.59.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

@@ -29,11 +29,7 @@ export const WeatherFilter = ({
 
   useEffect(() => {
     onChange({ ...form, ...interval });
-  }, [interval]);
-
-  useEffect(() => {
-    onChange({ ...form, city });
-  }, [city]);
+  }, [interval, city]);
 
   return (
     <div css={style} data-testid="WeatherFilter">

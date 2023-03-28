@@ -6,7 +6,7 @@ import { expect, Mock, vi } from 'vitest';
 import { DatePicker } from '@atoms/DatePicker/DatePicker';
 
 vi.mock('@atoms/DatePicker/DatePicker', () => ({
-  DatePicker: vi.fn(() => null),
+  DatePicker: vi.fn(),
 }));
 
 describe('<IntervalSelector />', () => {
@@ -22,6 +22,7 @@ describe('<IntervalSelector />', () => {
         start: parseISO('2022-01-01'),
         end: parseISO('2022-02-01'),
       };
+
       render(
         <IntervalSelector interval={data} onChange={mockOnIntervalChanged} />
       );
@@ -29,7 +30,11 @@ describe('<IntervalSelector />', () => {
 
     it('期間の最初を示すDatePickerが表示される', () => {
       expect(DatePicker).toHaveBeenCalledWith(
-        expect.objectContaining({ value: parseISO('2022-01-01') })
+        {
+          value: parseISO('2022-01-01'),
+          onChange: expect.any(Function),
+        },
+        expect.anything()
       );
     });
   });

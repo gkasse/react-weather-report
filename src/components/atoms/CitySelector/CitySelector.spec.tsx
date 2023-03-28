@@ -10,11 +10,11 @@ describe('<CitySelector />', () => {
     mockCityOnChanged = vi.fn();
   });
 
-  test('it should mount', () => {
+  test('select要素がレンダリングされる', () => {
     render(<CitySelector city={'Tokyo'} onChange={mockCityOnChanged} />);
 
-    const buttonD = screen.getByTestId('CitySelector');
-
-    expect(buttonD).toBeInTheDocument();
+    const citySelector = screen.getByTestId('CitySelector');
+    expect(citySelector).toBeInTheDocument();
+    expect(citySelector).toBeInstanceOf(HTMLInputElement);
   });
 });

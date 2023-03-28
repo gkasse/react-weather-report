@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
-import { useContext, useEffect, useState } from 'react';
-import { WeatherRepositoryContext } from '../../../contexts';
+import { useEffect, useState } from 'react';
 import { WeatherChart } from '@molecules/WeatherChart/WeatherChart';
 import { Weather } from '@resources/Weather';
 import { WeatherFilter } from '@organisms/WeatherFilter/WeatherFilter';
@@ -11,6 +10,7 @@ import {
   OSAKA,
   TOKYO,
 } from '@resources/GeographicCoordinate';
+import { WeatherRepository } from '@repositories/WeatherRepository';
 
 const style = css`
   display: flex;
@@ -30,20 +30,16 @@ const convertToGeo = (city: City): GeographicCoordinate => {
 };
 
 export const WeatherReport = (): JSX.Element => {
-  const repository = useContext(WeatherRepositoryContext);
   const [weathers, setWeathers] = useState<Weather[]>([]);
-  const [form, updateForm] = useState(createWeatherForm);
+  const [form, updateForm] = useState(() => createWeatherForm());
 
   useEffect(() => {
-    (async () => {
-      const weathers = await repository?.getWeathers(
-        form.start,
-        form.end,
-        convertToGeo(form.city)
-      );
-      setWeathers(() => weathers ?? []);
-    })();
-  }, [form]);
+    WeatherRepository.getWeathers(
+      form.start,
+      form.end,
+      convertToGeo(form.city)
+    ).subscribe((tmp) => setWeathers(tmp));
+  }, [form.start, form.end, form.city]);
 
   return (
     <div css={style} data-testid="WeatherReport">
